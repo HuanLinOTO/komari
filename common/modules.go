@@ -98,6 +98,7 @@ type GPUDeviceInfo struct {
 	MemoryUsed   int64   `json:"memory_used"`   // 显存已用(字节)
 	Utilization  float64 `json:"utilization"`   // GPU使用率(%)
 	Temperature  int     `json:"temperature"`   // GPU温度(°C)
+	PowerUsage   float64 `json:"power_usage"`   // GPU功耗(瓦特W)
 }
 
 // 保持向后兼容的旧GPUReport结构

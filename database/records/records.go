@@ -387,6 +387,7 @@ func migrateGPURecords(db *gorm.DB) error {
 		MemUsed     []int64
 		Utilization []float32
 		Temperature []int
+		PowerUsage  []float32
 	}
 	
 	groupedGPUs := make(map[gpuGroupKey]*gpuGroupData)
@@ -408,6 +409,7 @@ func migrateGPURecords(db *gorm.DB) error {
 		data.MemUsed = append(data.MemUsed, record.MemUsed)
 		data.Utilization = append(data.Utilization, record.Utilization)
 		data.Temperature = append(data.Temperature, record.Temperature)
+		data.PowerUsage = append(data.PowerUsage, record.PowerUsage)
 	}
 	
 	// 百分位数计算函数 (复用传统Record压缩逻辑)
@@ -479,6 +481,7 @@ func migrateGPURecords(db *gorm.DB) error {
 				MemUsed:     getIntPercentile(data.MemUsed, high_percentile),
 				Utilization: getFloat32Percentile(data.Utilization, high_percentile),
 				Temperature: int(getIntPercentile(convertIntToInt64(data.Temperature), high_percentile)),
+				PowerUsage:  getFloat32Percentile(data.PowerUsage, high_percentile),
 			}
 			
 			if existingCount > 0 {
