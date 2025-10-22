@@ -143,6 +143,7 @@ func AverageGPUReports(uuid string, time time.Time, reports []common.Report, top
 		MemUsed     []int64
 		Utilization []float64
 		Temperature []int
+		PowerUsage  []float64
 	})
 
 	for _, report := range reports {
@@ -155,6 +156,7 @@ func AverageGPUReports(uuid string, time time.Time, reports []common.Report, top
 						MemUsed     []int64
 						Utilization []float64
 						Temperature []int
+						PowerUsage  []float64
 					}{DeviceName: gpu.Name}
 				}
 				data := deviceData[idx]
@@ -162,6 +164,7 @@ func AverageGPUReports(uuid string, time time.Time, reports []common.Report, top
 				data.MemUsed = append(data.MemUsed, gpu.MemoryUsed)
 				data.Utilization = append(data.Utilization, gpu.Utilization)
 				data.Temperature = append(data.Temperature, gpu.Temperature)
+				data.PowerUsage = append(data.PowerUsage, gpu.PowerUsage)
 				deviceData[idx] = data
 			}
 		}
@@ -251,6 +254,7 @@ func AverageGPUReports(uuid string, time time.Time, reports []common.Report, top
 				MemUsed:     sumAndSortInt64(data.MemUsed, topPercentage),
 				Utilization: float32(sumAndSort(data.Utilization, topPercentage)),
 				Temperature: sumAndSortInt(data.Temperature, topPercentage),
+				PowerUsage:  float32(sumAndSort(data.PowerUsage, topPercentage)),
 			}
 			result = append(result, record)
 		}
